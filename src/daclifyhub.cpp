@@ -61,6 +61,23 @@ ACTION daclifyhub::creategroup(name groupname, name creator) {
 
 }
 
+ACTION daclifyhub::linkgroup(name groupname, name creator) {
+
+  require_auth(get_self() );
+  check(is_account(groupname), "The group account doesn't exist.");
+  check(is_account(creator), "The creator account doesn't exist.");
+
+  groups_table _groups(get_self(), get_self().value);
+  auto group_itr = _groups.find(groupname.value);
+  check(group_itr == _groups.end(), "Account already registered as a group.");
+
+    // Create record if it does not exist
+  _groups.emplace(get_self(), [&](auto& group) {
+    group.groupname = groupname;
+    group.creator = creator;
+  });
+}
+
 ACTION daclifyhub::deletegroup(name groupname) {
   //get_self is authorized to delete groups from the hub! The group will still exist though.
   //however deleted groups can not be found via the ui. Direct links will still work.

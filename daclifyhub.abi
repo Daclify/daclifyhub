@@ -143,6 +143,20 @@
             ]
         },
         {
+            "name": "linkgroup",
+            "base": "",
+            "fields": [
+                {
+                    "name": "groupname",
+                    "type": "name"
+                },
+                {
+                    "name": "creator",
+                    "type": "name"
+                }
+            ]
+        },
+        {
             "name": "messagebus",
             "base": "",
             "fields": [
@@ -438,6 +452,11 @@
         {
             "name": "deletegroup",
             "type": "deletegroup",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "linkgroup",
+            "type": "linkgroup",
             "ricardian_contract": ""
         },
         {

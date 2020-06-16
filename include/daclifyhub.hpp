@@ -43,6 +43,7 @@ CONTRACT daclifyhub : public contract {
 
     ACTION creategroup(name groupname, name creator);
     ACTION activate(name groupname, name creator);
+    ACTION linkgroup(name groupname, name creator);//add an existing group to the hub
 
     ACTION opendeposit(name account, name ram_payer, extended_asset amount);
     ACTION withdraw(name account, extended_asset amount);
