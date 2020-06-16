@@ -13,38 +13,32 @@ ACTION daclifyhub::setgrpstate(name groupname, uint8_t newstate){
   });
 }
 
-ACTION daclifyhub::versioning(name modulename, string codehash, string abi_url, string wasm_url, checksum256 trx_id, uint64_t block_num, uint64_t update_key){
+ACTION daclifyhub::versioning(name modulename, string codehash, string json_src, string info, uint64_t update_key){
   require_auth(get_self() );
   check(modulename.value, "Must specify a modulename");
   versions_table _versions(get_self(), modulename.value);
 
   if(update_key){
     auto existing_version = _versions.find(update_key);
-    check(existing_version != _versions.end(), "Version with this key doesn't exist, can't update");
+    check(existing_version != _versions.end(), "Version with this key doesn't exist, can't update.");
 
-    if(codehash.empty() && abi_url.empty() && wasm_url.empty() && !block_num ){
+    if(codehash.empty() && json_src.empty() && info.empty() ){
       _versions.erase(existing_version);
       return;
     }
-
+  //todo add abi and wasm to json format as string
     _versions.modify( existing_version, same_payer, [&]( auto& v) {
-      v.codehash = codehash;
-      v.abi_url = abi_url;
-      v.wasm_url = wasm_url;
-      v.trx_id = trx_id;
-      v.block_num = block_num;
+      v.codehash = codehash.empty() ? v.codehash : codehash;
+      v.json_src = json_src.empty() ? v.json_src : json_src;
     });
     return;
   }
-
+  check(!codehash.empty() && !json_src.empty(), "codehash and json_src required.");
   uint64_t id = _versions.available_primary_key()==0 ? 1 : _versions.available_primary_key();
   _versions.emplace(get_self(), [&](auto& v) {
       v.version = id;
       v.codehash = codehash;
-      v.abi_url = abi_url;
-      v.wasm_url = wasm_url;
-      v.trx_id = trx_id;
-      v.block_num = block_num;
+      v.json_src = json_src;
   });
 
 }
@@ -88,7 +82,6 @@ ACTION daclifyhub::activate(name groupname, name creator) {
   check(group_itr->creator == creator, "Only the group creator can activate.");
   check(group_itr->state == 0, "Group already activated.");
 
-//todo update auth
   _groups.modify( group_itr, same_payer, [&]( auto& a) {
       a.state = 1;
   });

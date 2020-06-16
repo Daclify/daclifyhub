@@ -357,20 +357,12 @@
                     "type": "string"
                 },
                 {
-                    "name": "abi_url",
+                    "name": "json_src",
                     "type": "string"
                 },
                 {
-                    "name": "wasm_url",
+                    "name": "info",
                     "type": "string"
-                },
-                {
-                    "name": "trx_id",
-                    "type": "checksum256"
-                },
-                {
-                    "name": "block_num",
-                    "type": "uint64"
                 },
                 {
                     "name": "update_key",
@@ -391,19 +383,19 @@
                     "type": "string"
                 },
                 {
-                    "name": "abi_url",
+                    "name": "json_src",
                     "type": "string"
                 },
                 {
-                    "name": "wasm_url",
+                    "name": "info",
                     "type": "string"
                 },
                 {
-                    "name": "trx_id",
-                    "type": "checksum256"
+                    "name": "r1",
+                    "type": "uint64"
                 },
                 {
-                    "name": "block_num",
+                    "name": "r2",
                     "type": "uint64"
                 },
                 {

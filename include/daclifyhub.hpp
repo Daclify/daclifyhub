@@ -38,7 +38,7 @@ CONTRACT daclifyhub : public contract {
 
     using contract::contract;
 
-    ACTION versioning(name modulename, string codehash, string abi_url, string wasm_url, checksum256 trx_id, uint64_t block_num, uint64_t update_key);
+    ACTION versioning(name modulename, string codehash, string json_src, string info, uint64_t update_key);
     ACTION setgrpstate(name groupname, uint8_t newstate);
 
     ACTION creategroup(name groupname, name creator);
@@ -101,17 +101,17 @@ CONTRACT daclifyhub : public contract {
     TABLE versions {
       uint64_t version = 1;
       string codehash;
-      string abi_url;
-      string wasm_url;
-      checksum256 trx_id;
-      uint64_t block_num;
+      string json_src;//block_num and trxid OR urls, only used in the frontend
+      string info;
+      uint64_t r1;
+      uint64_t r2;
       time_point_sec creation_date = time_point_sec(current_time_point() );
       auto primary_key() const { return version; }
     };
     typedef multi_index<name("versions"), versions> versions_table;
 
 
-    //FUNCTIONS see
+    //FUNCTIONS
     void create_group_account(name groupname, name creator);
     void set_owner_permission(name groupname, name creator);
     void sub_deposit( const name& account, const extended_asset& value);
