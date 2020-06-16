@@ -2,6 +2,17 @@
 #include <functions.cpp>
 #include <deposits.cpp>
 
+ACTION daclifyhub::setgrpstate(name groupname, uint8_t newstate){
+  require_auth(get_self() );
+  groups_table _groups(get_self(), get_self().value);
+  auto group_itr = _groups.find(groupname.value);
+  check(group_itr != _groups.end(), "Group not found.");
+  check(group_itr->state != newstate, "Group already in this state.");
+  _groups.modify( group_itr, groupname, [&]( auto& a) {
+      a.state = newstate;
+  });
+}
+
 ACTION daclifyhub::versioning(name modulename, string codehash, string abi_url, string wasm_url, checksum256 trx_id, uint64_t block_num, uint64_t update_key){
   require_auth(get_self() );
   check(modulename.value, "Must specify a modulename");

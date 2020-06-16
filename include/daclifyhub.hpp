@@ -8,19 +8,6 @@
 #include <eosio/permission.hpp>
 #include <eosio/multi_index.hpp>
 
-/*
-
-#include <eosio/eosio.hpp>
-#include <eosio/system.hpp>
-#include <eosio/multi_index.hpp>
-#include <eosio/singleton.hpp>
-#include <eosio/print.hpp>
-#include <eosio/asset.hpp>
-#include <eosio/symbol.hpp>
-#include <eosio/action.hpp>
-#include <eosio/time.hpp>
-#include <eosio/permission.hpp>
-*/
 
 #include <system_structs.hpp>
 
@@ -52,6 +39,7 @@ CONTRACT daclifyhub : public contract {
     using contract::contract;
 
     ACTION versioning(name modulename, string codehash, string abi_url, string wasm_url, checksum256 trx_id, uint64_t block_num, uint64_t update_key);
+    ACTION setgrpstate(name groupname, uint8_t newstate);
 
     ACTION creategroup(name groupname, name creator);
     ACTION activate(name groupname, name creator);
@@ -97,10 +85,10 @@ CONTRACT daclifyhub : public contract {
       uiconf ui;
       uint8_t state = 0;
       vector <name> tags;
-      bool flag = 0;
       uint64_t claps;
       uint64_t r1;
       uint64_t r2;
+      uint64_t r3;
       time_point_sec creation_date = time_point_sec(current_time_point() );
       auto primary_key() const { return groupname.value; }
       uint64_t by_claps() const { return static_cast<uint64_t>(UINT64_MAX - claps);}

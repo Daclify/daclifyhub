@@ -103,10 +103,6 @@
                     "type": "name[]"
                 },
                 {
-                    "name": "flag",
-                    "type": "bool"
-                },
-                {
                     "name": "claps",
                     "type": "uint64"
                 },
@@ -116,6 +112,10 @@
                 },
                 {
                     "name": "r2",
+                    "type": "uint64"
+                },
+                {
+                    "name": "r3",
                     "type": "uint64"
                 },
                 {
@@ -225,6 +225,20 @@
                 {
                     "name": "url",
                     "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "setgrpstate",
+            "base": "",
+            "fields": [
+                {
+                    "name": "groupname",
+                    "type": "name"
+                },
+                {
+                    "name": "newstate",
+                    "type": "uint8"
                 }
             ]
         },
@@ -457,6 +471,11 @@
         {
             "name": "setcustomui",
             "type": "setcustomui",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "setgrpstate",
+            "type": "setgrpstate",
             "ricardian_contract": ""
         },
         {
