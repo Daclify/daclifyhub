@@ -78,6 +78,7 @@ ACTION daclifyhub::linkgroup(name groupname, name creator) {
   });
 }
 
+/*
 ACTION daclifyhub::deletegroup(name groupname) {
   //get_self is authorized to delete groups from the hub! The group will still exist though.
   //however deleted groups can not be found via the ui. Direct links will still work.
@@ -88,6 +89,7 @@ ACTION daclifyhub::deletegroup(name groupname) {
   _groups.erase(group_itr);
 
 }
+*/
 
 ACTION daclifyhub::activate(name groupname, name creator) {
   require_auth(creator);

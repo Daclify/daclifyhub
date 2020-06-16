@@ -37,16 +37,6 @@
             ]
         },
         {
-            "name": "deletegroup",
-            "base": "",
-            "fields": [
-                {
-                    "name": "groupname",
-                    "type": "name"
-                }
-            ]
-        },
-        {
             "name": "deposits",
             "base": "",
             "fields": [
@@ -447,11 +437,6 @@
         {
             "name": "creategroup",
             "type": "creategroup",
-            "ricardian_contract": ""
-        },
-        {
-            "name": "deletegroup",
-            "type": "deletegroup",
             "ricardian_contract": ""
         },
         {

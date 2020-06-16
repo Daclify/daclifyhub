@@ -61,7 +61,7 @@ CONTRACT daclifyhub : public contract {
 
     ACTION messagebus(name sender_group, name event, string message, vector<name> receivers);
 
-    ACTION deletegroup(name groupname);
+    //ACTION deletegroup(name groupname);
 
     ACTION clear();
     //notification handlers
@@ -71,7 +71,7 @@ CONTRACT daclifyhub : public contract {
 
   private:
 
-    //scoped table
+    //scoped table by account
     TABLE deposits {
       extended_asset balance;
       uint64_t primary_key()const { return balance.quantity.symbol.raw(); }
@@ -117,8 +117,6 @@ CONTRACT daclifyhub : public contract {
     void set_owner_permission(name groupname, name creator);
     void sub_deposit( const name& account, const extended_asset& value);
     void add_deposit( const name& account, const extended_asset& value);
-
-  
     struct sort_authorization_by_name{
       inline bool operator() (const eosiosystem::permission_level_weight& plw1, const eosiosystem::permission_level_weight& plw2){
         return (plw1.permission.actor < plw2.permission.actor);
