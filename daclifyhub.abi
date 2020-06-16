@@ -1,0 +1,528 @@
+{
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT ",
+    "version": "eosio::abi/1.1",
+    "types": [],
+    "structs": [
+        {
+            "name": "activate",
+            "base": "",
+            "fields": [
+                {
+                    "name": "groupname",
+                    "type": "name"
+                },
+                {
+                    "name": "creator",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "clear",
+            "base": "",
+            "fields": []
+        },
+        {
+            "name": "creategroup",
+            "base": "",
+            "fields": [
+                {
+                    "name": "groupname",
+                    "type": "name"
+                },
+                {
+                    "name": "creator",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "deletegroup",
+            "base": "",
+            "fields": [
+                {
+                    "name": "groupname",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "deposits",
+            "base": "",
+            "fields": [
+                {
+                    "name": "balance",
+                    "type": "extended_asset"
+                }
+            ]
+        },
+        {
+            "name": "groupmeta",
+            "base": "",
+            "fields": [
+                {
+                    "name": "title",
+                    "type": "string"
+                },
+                {
+                    "name": "about",
+                    "type": "string"
+                },
+                {
+                    "name": "links",
+                    "type": "link[]"
+                }
+            ]
+        },
+        {
+            "name": "groups",
+            "base": "",
+            "fields": [
+                {
+                    "name": "groupname",
+                    "type": "name"
+                },
+                {
+                    "name": "creator",
+                    "type": "name"
+                },
+                {
+                    "name": "meta",
+                    "type": "groupmeta"
+                },
+                {
+                    "name": "ui",
+                    "type": "uiconf"
+                },
+                {
+                    "name": "state",
+                    "type": "uint8"
+                },
+                {
+                    "name": "tags",
+                    "type": "name[]"
+                },
+                {
+                    "name": "flag",
+                    "type": "bool"
+                },
+                {
+                    "name": "claps",
+                    "type": "uint64"
+                },
+                {
+                    "name": "r1",
+                    "type": "uint64"
+                },
+                {
+                    "name": "r2",
+                    "type": "uint64"
+                },
+                {
+                    "name": "creation_date",
+                    "type": "time_point_sec"
+                }
+            ]
+        },
+        {
+            "name": "link",
+            "base": "",
+            "fields": [
+                {
+                    "name": "icon",
+                    "type": "string"
+                },
+                {
+                    "name": "label",
+                    "type": "string"
+                },
+                {
+                    "name": "url",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "messagebus",
+            "base": "",
+            "fields": [
+                {
+                    "name": "sender_group",
+                    "type": "name"
+                },
+                {
+                    "name": "event",
+                    "type": "name"
+                },
+                {
+                    "name": "message",
+                    "type": "string"
+                },
+                {
+                    "name": "receivers",
+                    "type": "name[]"
+                }
+            ]
+        },
+        {
+            "name": "migrategrps",
+            "base": "",
+            "fields": [
+                {
+                    "name": "batch",
+                    "type": "uint8"
+                },
+                {
+                    "name": "skip",
+                    "type": "uint8"
+                }
+            ]
+        },
+        {
+            "name": "movedeposit",
+            "base": "",
+            "fields": [
+                {
+                    "name": "from",
+                    "type": "name"
+                },
+                {
+                    "name": "to",
+                    "type": "name"
+                },
+                {
+                    "name": "amount",
+                    "type": "extended_asset"
+                }
+            ]
+        },
+        {
+            "name": "opendeposit",
+            "base": "",
+            "fields": [
+                {
+                    "name": "account",
+                    "type": "name"
+                },
+                {
+                    "name": "ram_payer",
+                    "type": "name"
+                },
+                {
+                    "name": "amount",
+                    "type": "extended_asset"
+                }
+            ]
+        },
+        {
+            "name": "setcustomui",
+            "base": "",
+            "fields": [
+                {
+                    "name": "groupname",
+                    "type": "name"
+                },
+                {
+                    "name": "url",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "uiconf",
+            "base": "",
+            "fields": [
+                {
+                    "name": "logo",
+                    "type": "string"
+                },
+                {
+                    "name": "hexcolor",
+                    "type": "string"
+                },
+                {
+                    "name": "custom_ui_url",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "updateabout",
+            "base": "",
+            "fields": [
+                {
+                    "name": "groupname",
+                    "type": "name"
+                },
+                {
+                    "name": "about",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "updatecolor",
+            "base": "",
+            "fields": [
+                {
+                    "name": "groupname",
+                    "type": "name"
+                },
+                {
+                    "name": "hexcolor",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "updatelinks",
+            "base": "",
+            "fields": [
+                {
+                    "name": "groupname",
+                    "type": "name"
+                },
+                {
+                    "name": "newlinks",
+                    "type": "link[]"
+                }
+            ]
+        },
+        {
+            "name": "updatelogo",
+            "base": "",
+            "fields": [
+                {
+                    "name": "groupname",
+                    "type": "name"
+                },
+                {
+                    "name": "logo",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "updatetags",
+            "base": "",
+            "fields": [
+                {
+                    "name": "groupname",
+                    "type": "name"
+                },
+                {
+                    "name": "tags",
+                    "type": "name[]"
+                }
+            ]
+        },
+        {
+            "name": "updatetitle",
+            "base": "",
+            "fields": [
+                {
+                    "name": "groupname",
+                    "type": "name"
+                },
+                {
+                    "name": "title",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "versioning",
+            "base": "",
+            "fields": [
+                {
+                    "name": "modulename",
+                    "type": "name"
+                },
+                {
+                    "name": "codehash",
+                    "type": "string"
+                },
+                {
+                    "name": "abi_url",
+                    "type": "string"
+                },
+                {
+                    "name": "wasm_url",
+                    "type": "string"
+                },
+                {
+                    "name": "trx_id",
+                    "type": "checksum256"
+                },
+                {
+                    "name": "block_num",
+                    "type": "uint64"
+                },
+                {
+                    "name": "update_key",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "versions",
+            "base": "",
+            "fields": [
+                {
+                    "name": "version",
+                    "type": "uint64"
+                },
+                {
+                    "name": "codehash",
+                    "type": "string"
+                },
+                {
+                    "name": "abi_url",
+                    "type": "string"
+                },
+                {
+                    "name": "wasm_url",
+                    "type": "string"
+                },
+                {
+                    "name": "trx_id",
+                    "type": "checksum256"
+                },
+                {
+                    "name": "block_num",
+                    "type": "uint64"
+                },
+                {
+                    "name": "creation_date",
+                    "type": "time_point_sec"
+                }
+            ]
+        },
+        {
+            "name": "withdraw",
+            "base": "",
+            "fields": [
+                {
+                    "name": "account",
+                    "type": "name"
+                },
+                {
+                    "name": "amount",
+                    "type": "extended_asset"
+                }
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "name": "activate",
+            "type": "activate",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "clear",
+            "type": "clear",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "creategroup",
+            "type": "creategroup",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "deletegroup",
+            "type": "deletegroup",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "messagebus",
+            "type": "messagebus",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "migrategrps",
+            "type": "migrategrps",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "movedeposit",
+            "type": "movedeposit",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "opendeposit",
+            "type": "opendeposit",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "setcustomui",
+            "type": "setcustomui",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "updateabout",
+            "type": "updateabout",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "updatecolor",
+            "type": "updatecolor",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "updatelinks",
+            "type": "updatelinks",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "updatelogo",
+            "type": "updatelogo",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "updatetags",
+            "type": "updatetags",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "updatetitle",
+            "type": "updatetitle",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "versioning",
+            "type": "versioning",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "withdraw",
+            "type": "withdraw",
+            "ricardian_contract": ""
+        }
+    ],
+    "tables": [
+        {
+            "name": "deposits",
+            "type": "deposits",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "groups",
+            "type": "groups",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "versions",
+            "type": "versions",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        }
+    ],
+    "ricardian_clauses": [],
+    "variants": []
+}
