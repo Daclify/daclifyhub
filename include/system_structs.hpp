@@ -4,6 +4,7 @@ namespace eosiosystem {
     struct key_weight {
         eosio::public_key key;
         uint16_t weight;
+        EOSLIB_SERIALIZE( key_weight, (key)(weight) )
     };
 
     struct permission_level_weight {

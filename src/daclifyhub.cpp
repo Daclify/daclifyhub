@@ -12,6 +12,11 @@ ACTION daclifyhub::setgrpstate(name groupname, uint8_t newstate){
       a.state = newstate;
   });
 }
+ACTION daclifyhub::setsettings(settings new_settings){
+  require_auth(get_self());
+  settings_table _settings(get_self(), get_self().value);
+  _settings.set(new_settings, get_self());
+}
 
 ACTION daclifyhub::versioning(name modulename, string codehash, string json_src, string info, uint64_t update_key){
   require_auth(get_self() );
@@ -30,6 +35,7 @@ ACTION daclifyhub::versioning(name modulename, string codehash, string json_src,
     _versions.modify( existing_version, same_payer, [&]( auto& v) {
       v.codehash = codehash.empty() ? v.codehash : codehash;
       v.json_src = json_src.empty() ? v.json_src : json_src;
+      v.info = info.empty() ? v.info : info;
     });
     return;
   }
@@ -39,6 +45,7 @@ ACTION daclifyhub::versioning(name modulename, string codehash, string json_src,
       v.version = id;
       v.codehash = codehash;
       v.json_src = json_src;
+      v.info = info;
   });
 
 }

@@ -5,6 +5,7 @@
 #include <eosio/action.hpp>
 #include <eosio/asset.hpp>
 #include <eosio/time.hpp>
+#include <eosio/singleton.hpp>
 #include <eosio/permission.hpp>
 #include <eosio/multi_index.hpp>
 
@@ -37,9 +38,14 @@ CONTRACT daclifyhub : public contract {
 
 
     using contract::contract;
-
+    TABLE settings {
+      extended_asset system_token;
+    };
+    typedef eosio::singleton<"settings"_n, settings> settings_table;
+    
     ACTION versioning(name modulename, string codehash, string json_src, string info, uint64_t update_key);
     ACTION setgrpstate(name groupname, uint8_t newstate);
+    ACTION setsettings(settings new_settings);
 
     ACTION creategroup(name groupname, name creator);
     ACTION activate(name groupname, name creator);
@@ -69,7 +75,10 @@ CONTRACT daclifyhub : public contract {
     void on_transfer(name from, name to, asset quantity, string memo);
 
 
+
   private:
+
+
 
     //scoped table by account
     TABLE deposits {
