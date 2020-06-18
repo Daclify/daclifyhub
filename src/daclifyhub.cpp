@@ -182,6 +182,9 @@ ACTION daclifyhub::setcustomui(name groupname, string url){
   auto group_itr = _groups.find(groupname.value);
   check(group_itr != _groups.end(), "Group not found.");
   check(group_itr->state != 0, "Group isn't active yet.");
+  if(!url.empty() ){
+    check(url.rfind("https://", 0) == 0, "Url must be https://");
+  }
   _groups.modify( group_itr, groupname, [&]( auto& a) {
       a.ui.custom_ui_url = url;
   });

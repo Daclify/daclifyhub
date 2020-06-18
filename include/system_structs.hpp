@@ -22,6 +22,6 @@ namespace eosiosystem {
         std::vector<key_weight> keys;
         std::vector<permission_level_weight> accounts;
         std::vector<wait_weight> waits;
-        //EOSLIB_SERIALIZE( authority, (threshold)(keys)(accounts)(waits) )
+
     };
 }
