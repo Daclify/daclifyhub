@@ -23,6 +23,128 @@
             "fields": []
         },
         {
+            "name": "compapprove",
+            "base": "",
+            "fields": [
+                {
+                    "name": "comp_id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "hash",
+                    "type": "checksum256"
+                }
+            ]
+        },
+        {
+            "name": "compdelete",
+            "base": "",
+            "fields": [
+                {
+                    "name": "comp_id",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "components",
+            "base": "",
+            "fields": [
+                {
+                    "name": "comp_id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "owner",
+                    "type": "name"
+                },
+                {
+                    "name": "src",
+                    "type": "string[]"
+                },
+                {
+                    "name": "hash",
+                    "type": "checksum256[]"
+                },
+                {
+                    "name": "info_json",
+                    "type": "string"
+                },
+                {
+                    "name": "approve_level",
+                    "type": "uint8"
+                },
+                {
+                    "name": "last_update",
+                    "type": "time_point_sec"
+                }
+            ]
+        },
+        {
+            "name": "compreg",
+            "base": "",
+            "fields": [
+                {
+                    "name": "owner",
+                    "type": "name"
+                },
+                {
+                    "name": "src",
+                    "type": "string"
+                },
+                {
+                    "name": "hash",
+                    "type": "checksum256"
+                },
+                {
+                    "name": "info_json",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "compunapprov",
+            "base": "",
+            "fields": [
+                {
+                    "name": "comp_id",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "compupdatein",
+            "base": "",
+            "fields": [
+                {
+                    "name": "comp_id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "info_json",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "compupdatesr",
+            "base": "",
+            "fields": [
+                {
+                    "name": "comp_id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "new_src",
+                    "type": "string"
+                },
+                {
+                    "name": "new_hash",
+                    "type": "checksum256"
+                }
+            ]
+        },
+        {
             "name": "creategroup",
             "base": "",
             "fields": [
@@ -33,6 +155,10 @@
                 {
                     "name": "creator",
                     "type": "name"
+                },
+                {
+                    "name": "resource_estimation",
+                    "type": "asset"
                 }
             ]
         },
@@ -143,6 +269,30 @@
                 {
                     "name": "creator",
                     "type": "name"
+                },
+                {
+                    "name": "meta",
+                    "type": "groupmeta"
+                },
+                {
+                    "name": "ui",
+                    "type": "uiconf"
+                },
+                {
+                    "name": "state",
+                    "type": "uint8"
+                },
+                {
+                    "name": "tags",
+                    "type": "name[]"
+                },
+                {
+                    "name": "claps",
+                    "type": "uint64"
+                },
+                {
+                    "name": "creation_date",
+                    "type": "time_point_sec"
                 }
             ]
         },
@@ -253,6 +403,10 @@
                 {
                     "name": "new_settings",
                     "type": "settings"
+                },
+                {
+                    "name": "remove",
+                    "type": "bool"
                 }
             ]
         },
@@ -263,6 +417,16 @@
                 {
                     "name": "system_token",
                     "type": "extended_asset"
+                }
+            ]
+        },
+        {
+            "name": "state",
+            "base": "",
+            "fields": [
+                {
+                    "name": "comp_id",
+                    "type": "uint64"
                 }
             ]
         },
@@ -378,7 +542,11 @@
                 },
                 {
                     "name": "codehash",
-                    "type": "string"
+                    "type": "checksum256"
+                },
+                {
+                    "name": "abihash",
+                    "type": "checksum256"
                 },
                 {
                     "name": "json_src",
@@ -404,7 +572,11 @@
                 },
                 {
                     "name": "codehash",
-                    "type": "string"
+                    "type": "checksum256"
+                },
+                {
+                    "name": "abihash",
+                    "type": "checksum256"
                 },
                 {
                     "name": "json_src",
@@ -415,8 +587,8 @@
                     "type": "string"
                 },
                 {
-                    "name": "r1",
-                    "type": "uint64"
+                    "name": "status",
+                    "type": "uint8"
                 },
                 {
                     "name": "r2",
@@ -425,6 +597,24 @@
                 {
                     "name": "creation_date",
                     "type": "time_point_sec"
+                }
+            ]
+        },
+        {
+            "name": "versionstate",
+            "base": "",
+            "fields": [
+                {
+                    "name": "modulename",
+                    "type": "name"
+                },
+                {
+                    "name": "version",
+                    "type": "uint64"
+                },
+                {
+                    "name": "status",
+                    "type": "uint8"
                 }
             ]
         },
@@ -452,6 +642,36 @@
         {
             "name": "clear",
             "type": "clear",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "compapprove",
+            "type": "compapprove",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "compdelete",
+            "type": "compdelete",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "compreg",
+            "type": "compreg",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "compunapprov",
+            "type": "compunapprov",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "compupdatein",
+            "type": "compupdatein",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "compupdatesr",
+            "type": "compupdatesr",
             "ricardian_contract": ""
         },
         {
@@ -535,12 +755,24 @@
             "ricardian_contract": ""
         },
         {
+            "name": "versionstate",
+            "type": "versionstate",
+            "ricardian_contract": ""
+        },
+        {
             "name": "withdraw",
             "type": "withdraw",
             "ricardian_contract": ""
         }
     ],
     "tables": [
+        {
+            "name": "components",
+            "type": "components",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
         {
             "name": "deposits",
             "type": "deposits",
@@ -558,6 +790,13 @@
         {
             "name": "settings",
             "type": "settings",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "state",
+            "type": "state",
             "index_type": "i64",
             "key_names": [],
             "key_types": []

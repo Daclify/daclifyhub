@@ -1,6 +1,7 @@
 #include <daclifyhub.hpp>
 #include <functions.cpp>
 #include <deposits.cpp>
+#include <components.cpp>
 
 ACTION daclifyhub::setgrpstate(name groupname, uint8_t newstate){
   require_auth(get_self() );
@@ -12,14 +13,19 @@ ACTION daclifyhub::setgrpstate(name groupname, uint8_t newstate){
       a.state = newstate;
   });
 }
-ACTION daclifyhub::setsettings(settings new_settings){
+ACTION daclifyhub::setsettings(settings new_settings, bool remove){
   require_auth(get_self());
   settings_table _settings(get_self(), get_self().value);
+  if(remove){
+    _settings.remove();
+    return;
+  }
   _settings.set(new_settings, get_self());
 }
 
-ACTION daclifyhub::versioning(name modulename, string codehash, string json_src, string info, uint64_t update_key){
+ACTION daclifyhub::versioning(name modulename, checksum256 codehash, checksum256 abihash, string json_src, string info, uint64_t update_key){
   require_auth(get_self() );
+  checksum256 test;
   check(modulename.value, "Must specify a modulename");
   versions_table _versions(get_self(), modulename.value);
 
@@ -27,30 +33,41 @@ ACTION daclifyhub::versioning(name modulename, string codehash, string json_src,
     auto existing_version = _versions.find(update_key);
     check(existing_version != _versions.end(), "Version with this key doesn't exist, can't update.");
 
-    if(codehash.empty() && json_src.empty() && info.empty() ){
+    if(codehash==test && abihash==test && json_src.empty() && info.empty() ){
       _versions.erase(existing_version);
       return;
     }
-  //todo add abi and wasm to json format as string
     _versions.modify( existing_version, same_payer, [&]( auto& v) {
-      v.codehash = codehash.empty() ? v.codehash : codehash;
+      v.codehash = codehash == test ? v.codehash : codehash;
+      v.abihash = abihash == test ? v.abihash : abihash;
       v.json_src = json_src.empty() ? v.json_src : json_src;
       v.info = info.empty() ? v.info : info;
     });
     return;
   }
-  check(!codehash.empty() && !json_src.empty(), "codehash and json_src required.");
+  check(codehash != test && abihash != test && !json_src.empty(), "codehash, abihash and json_src required.");
   uint64_t id = _versions.available_primary_key()==0 ? 1 : _versions.available_primary_key();
   _versions.emplace(get_self(), [&](auto& v) {
       v.version = id;
       v.codehash = codehash;
+      v.abihash = codehash;
       v.json_src = json_src;
       v.info = info;
   });
-
 }
 
-ACTION daclifyhub::creategroup(name groupname, name creator) {
+ACTION daclifyhub::versionstate(name modulename, uint64_t version, uint8_t status ){
+  require_auth(get_self() );
+  check(modulename.value, "Must specify a modulename.");
+  versions_table _versions(get_self(), modulename.value);
+  auto itr = _versions.find(version);
+  check(itr != _versions.end(), "Version doesn't exists.");
+  _versions.modify( itr, same_payer, [&]( auto& v) {
+    v.status = status;
+  });
+}
+
+ACTION daclifyhub::creategroup(name groupname, name creator, asset resource_estimation) {
 
   require_auth(creator);
   check(!is_account(groupname), "The chosen accountname is already taken.");
@@ -64,11 +81,11 @@ ACTION daclifyhub::creategroup(name groupname, name creator) {
     group.creator = creator;
   });
 
-  create_group_account(groupname, creator);
+  create_group_account(groupname, creator, resource_estimation);
 
 }
 
-ACTION daclifyhub::linkgroup(name groupname, name creator) {
+ACTION daclifyhub::linkgroup(name groupname, name creator, groupmeta meta, uiconf ui, uint8_t state, vector<name> tags, uint64_t claps, time_point_sec creation_date) {
 
   require_auth(get_self() );
   check(is_account(groupname), "The group account doesn't exist.");
@@ -82,6 +99,12 @@ ACTION daclifyhub::linkgroup(name groupname, name creator) {
   _groups.emplace(get_self(), [&](auto& group) {
     group.groupname = groupname;
     group.creator = creator;
+    group.meta = meta;
+    group.ui = ui;
+    group.state = state;
+    group.tags = tags;
+    group.claps = claps;
+    group.creation_date = creation_date;
   });
 }
 

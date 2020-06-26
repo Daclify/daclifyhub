@@ -9,6 +9,7 @@
 #include <eosio/permission.hpp>
 #include <eosio/multi_index.hpp>
 
+#include <json.hpp>
 
 #include <system_structs.hpp>
 
@@ -43,13 +44,22 @@ CONTRACT daclifyhub : public contract {
     };
     typedef eosio::singleton<"settings"_n, settings> settings_table;
     
-    ACTION versioning(name modulename, string codehash, string json_src, string info, uint64_t update_key);
+    ACTION versioning(name modulename, checksum256 codehash, checksum256 abihash, string json_src, string info, uint64_t update_key);
+    ACTION versionstate(name modulename, uint64_t version, uint8_t status);
     ACTION setgrpstate(name groupname, uint8_t newstate);
-    ACTION setsettings(settings new_settings);
+    ACTION setsettings(settings new_settings, bool remove);
 
-    ACTION creategroup(name groupname, name creator);
+    ACTION compreg(name owner, string src, checksum256 hash, string info_json );
+    ACTION compupdatesr(uint64_t comp_id, string new_src, checksum256 new_hash );
+    ACTION compupdatein(uint64_t comp_id, string info_json );
+    ACTION compapprove(uint64_t comp_id, checksum256 hash);
+    ACTION compunapprov(uint64_t comp_id );
+    ACTION compdelete(uint64_t comp_id );
+
+    ACTION creategroup(name groupname, name creator, asset resource_estimation);
     ACTION activate(name groupname, name creator);
-    ACTION linkgroup(name groupname, name creator);//add an existing group to the hub
+
+    ACTION linkgroup(name groupname, name creator, groupmeta meta, uiconf ui, uint8_t state, vector<name> tags, uint64_t claps, time_point_sec creation_date);//add an existing group to the hub
 
     ACTION opendeposit(name account, name ram_payer, extended_asset amount);
     ACTION withdraw(name account, extended_asset amount);
@@ -78,6 +88,10 @@ CONTRACT daclifyhub : public contract {
 
   private:
 
+    TABLE state {
+        uint64_t comp_id = 100;
+    };
+    typedef eosio::singleton<"state"_n, state> state_table;
 
 
     //scoped table by account
@@ -102,27 +116,42 @@ CONTRACT daclifyhub : public contract {
       time_point_sec creation_date = time_point_sec(current_time_point() );
       auto primary_key() const { return groupname.value; }
       uint64_t by_claps() const { return static_cast<uint64_t>(UINT64_MAX - claps);}
+      uint64_t by_creator() const { return creator.value;}
     };
     typedef multi_index<name("groups"), groups,
-      eosio::indexed_by<"byclaps"_n, eosio::const_mem_fun<groups, uint64_t, &groups::by_claps >>
+      eosio::indexed_by<"byclaps"_n, eosio::const_mem_fun<groups, uint64_t, &groups::by_claps >>,
+      eosio::indexed_by<"bycreator"_n, eosio::const_mem_fun<groups, uint64_t, &groups::by_creator >>
     > groups_table;
     
     //scoped core/elections etc
     TABLE versions {
       uint64_t version = 1;
-      string codehash;
+      checksum256 codehash;
+      checksum256 abihash;
       string json_src;//block_num and trxid OR urls, only used in the frontend
       string info;
-      uint64_t r1;
+      uint8_t status = 0;
       uint64_t r2;
       time_point_sec creation_date = time_point_sec(current_time_point() );
       auto primary_key() const { return version; }
     };
     typedef multi_index<name("versions"), versions> versions_table;
 
+    TABLE components {
+        uint64_t comp_id;
+        name owner;
+        //PAIR=> 0: holds the approved src, 1: holds unapproved src (ie update). when approved the new src will replace the old on 0. 1 will be empty again
+        vector<string>src; 
+        vector<checksum256>hash;
+        string info_json;
+        uint8_t approve_level = 0;
+        time_point_sec last_update = time_point_sec(current_time_point() );
+        auto primary_key() const { return comp_id; }
+    };
+    typedef multi_index<name("components"), components> components_table;
 
     //FUNCTIONS
-    void create_group_account(name groupname, name creator);
+    void create_group_account(name groupname, name creator, asset resource_estimation);
     void set_owner_permission(name groupname, name creator);
     void sub_deposit( const name& account, const extended_asset& value);
     void add_deposit( const name& account, const extended_asset& value);
@@ -130,7 +159,23 @@ CONTRACT daclifyhub : public contract {
       inline bool operator() (const eosiosystem::permission_level_weight& plw1, const eosiosystem::permission_level_weight& plw2){
         return (plw1.permission.actor < plw2.permission.actor);
       }
-    };        
+    };
+
+    bool is_checksum256_populated(const checksum256& hash){
+      checksum256 test;
+      return test != hash;
+    }
+
+    std::string hash_to_str(const checksum256& hash) {
+      static const char table[] = "0123456789abcdef";
+      auto              bytes   = hash.extract_as_byte_array();
+      std::string       result;
+      for (uint8_t byte : bytes) {
+         result += table[byte >> 4];
+         result += table[byte & 0xf];
+      }
+      return result;
+    }     
     
 
 };

@@ -1,4 +1,4 @@
-void daclifyhub::create_group_account(name groupname, name creator){
+void daclifyhub::create_group_account(name groupname, name creator, asset resource_estimation){
 
     require_auth(creator);
     settings_table _settings(get_self(), get_self().value);
@@ -7,7 +7,7 @@ void daclifyhub::create_group_account(name groupname, name creator){
     symbol eos_sym = s.system_token.quantity.symbol;//   symbol(symbol_code("EOS"), 4);
     deposits_table _deposits(get_self(), creator.value);
     auto deposit = _deposits.get(eos_sym.raw(), "Account doesn't have EOS in deposits. Please transfer EOS to the hub to pay for RAM/NET/CPU." );
-    check(deposit.balance.quantity.amount > 500000, "Not enough EOS deposited to pay for RAM/NET/CPU.");
+    check(deposit.balance.quantity >= resource_estimation, "Not enough EOS deposited to pay for RAM/NET/CPU.");
     asset ram_quantity = asset(deposit.balance.quantity.amount - 20000, eos_sym);
     asset net_quantity = asset(10000, eos_sym);
     asset cpu_quantity = asset(10000, eos_sym);
