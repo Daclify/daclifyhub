@@ -108,18 +108,7 @@ ACTION daclifyhub::linkgroup(name groupname, name creator, groupmeta meta, uicon
   });
 }
 
-/*
-ACTION daclifyhub::deletegroup(name groupname) {
-  //get_self is authorized to delete groups from the hub! The group will still exist though.
-  //however deleted groups can not be found via the ui. Direct links will still work.
-  check(eosio::has_auth(groupname) || eosio::has_auth(get_self()), "Not authorized to remove the group from the hub.");
-  groups_table _groups(get_self(), get_self().value);
-  auto group_itr = _groups.find(groupname.value);
-  check(group_itr != _groups.end(), "group doesn't exist.");
-  _groups.erase(group_itr);
 
-}
-*/
 
 ACTION daclifyhub::activate(name groupname, name creator) {
   require_auth(creator);
@@ -241,9 +230,22 @@ ACTION daclifyhub::messagebus(name sender_group, name event, string message, vec
   check(group_itr->state != 0, "Inactive group can't send messsages.");
 }
 
+
+ACTION daclifyhub::unlinkgroup(name groupname) {
+  //get_self is authorized to delete groups from the hub! The group will still exist though.
+  //however deleted groups can not be found via the ui. Direct links will still work.
+  check(eosio::has_auth(groupname) || eosio::has_auth(get_self()), "Not authorized to unlink the group from the hub.");
+  groups_table _groups(get_self(), get_self().value);
+  auto group_itr = _groups.find(groupname.value);
+  check(group_itr != _groups.end(), "group doesn't exist.");
+  _groups.erase(group_itr);
+
+}
+
+
 ACTION daclifyhub::clear() {
   //maintenance actions
-  require_auth(get_self());
+  
   groups_table _groups(get_self(), get_self().value);
   // Delete all records in table
   auto itr = _groups.begin();

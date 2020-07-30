@@ -60,6 +60,8 @@ CONTRACT daclifyhub : public contract {
     ACTION activate(name groupname, name creator);
 
     ACTION linkgroup(name groupname, name creator, groupmeta meta, uiconf ui, uint8_t state, vector<name> tags, uint64_t claps, time_point_sec creation_date);//add an existing group to the hub
+    ACTION unlinkgroup(name groupname);
+
 
     ACTION opendeposit(name account, name ram_payer, extended_asset amount);
     ACTION withdraw(name account, extended_asset amount);
@@ -76,8 +78,6 @@ CONTRACT daclifyhub : public contract {
     ACTION migrategrps (uint8_t batch, uint8_t skip);
 
     ACTION messagebus(name sender_group, name event, string message, vector<name> receivers);
-
-    //ACTION deletegroup(name groupname);
 
     ACTION clear();
     //notification handlers

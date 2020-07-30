@@ -449,6 +449,16 @@
             ]
         },
         {
+            "name": "unlinkgroup",
+            "base": "",
+            "fields": [
+                {
+                    "name": "groupname",
+                    "type": "name"
+                }
+            ]
+        },
+        {
             "name": "updateabout",
             "base": "",
             "fields": [
@@ -717,6 +727,11 @@
         {
             "name": "setsettings",
             "type": "setsettings",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "unlinkgroup",
+            "type": "unlinkgroup",
             "ricardian_contract": ""
         },
         {
